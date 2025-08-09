@@ -1,0 +1,43 @@
+services:
+  caddy:
+    image: caddy:2.10.0-alpine
+    restart: unless-stopped
+    profiles: ["prod"]
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    env_file:
+      - .env
+
+  caddy-dev:
+    image: caddy:2.10.0-alpine
+    restart: unless-stopped
+    profiles: ["dev"]
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./dev.Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - caddy-network
+    env_file:
+      - .env
+    # hot reload for the caddyfile, don't use in prod
+    command: caddy run --config /etc/caddy/Caddyfile --watch
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  caddy-network:
+    name: caddy-network
+    driver: bridge

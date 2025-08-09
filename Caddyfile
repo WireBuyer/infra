@@ -1,0 +1,7 @@
+{$DOMAIN_NAME} {
+	respond "Hello, world!"
+}
+
+3dgifs.{$DOMAIN_NAME} {
+	reverse_proxy 3dgifs:5173
+}

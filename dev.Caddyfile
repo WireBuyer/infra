@@ -1,0 +1,17 @@
+# {
+# 	@skip path_regexp \.(js|css|png|jpe?g|gif|ico|woff|otf|ttf|eot|svg|txt|pdf|docx?|xlsx?)$
+# 	log_skip @skip
+
+#     log {
+# 		format console
+# 		level DEBUG
+# 	}
+# }
+
+localhost {
+	respond "Hello, localhost!"
+}
+
+3dgifs.localhost {
+	reverse_proxy 3dgifs-dev:5173
+}
